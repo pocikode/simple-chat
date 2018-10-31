@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\PrivateChat;
+use Illuminate\Support\Facades\DB;
 
 class PrivateChatController extends Controller
 {
+    // show all user private chats
     public function show()
     {
-        // get data private message
-        $message = PrivateChat::where('user_id', Auth::user()->user_id)->get();
+        $message = DB::table('private_chats')->where('user_id',Auth::user()->user_id)->orWhere('to_user',Auth::user()->user_id)->get(); 
         return response()->json(['data'=>$message], 200);
     }
 

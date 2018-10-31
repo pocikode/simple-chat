@@ -37,13 +37,13 @@ class GroupController extends Controller
         $user = User::where('phone', $request->phone)->first();
         if (is_null($user)){
             // jika tidak ada user dengan no hp yang diinputkan
-            return response()->json(['failed' => 'Tidak ada user dengan no hp '.$request->phone], 401);
+            return response()->json(['failed' => 'Tidak ada user dengan no hp '.$request->phone], 406);
         } else {
             // jika ada user
             // cek apakah user sudah ditambahkan
             if (in_array($user->user_id, $member)) {
                 // jika user sudah ditambahkan sebelumnya
-                return response()->json(['failed' => 'User sudah ditambahkan!'], 401);
+                return response()->json(['failed' => 'User sudah ditambahkan!'], 406);
             } else {
                 // jika belum ditambahkan
                 // tambahkan user ke group

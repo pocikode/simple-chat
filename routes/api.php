@@ -26,6 +26,9 @@ Route::group(['middleware' => 'auth:api'], function(){
 		Route::post('private/show', 'API\PrivateChatController@show'); // show all chat by user
 		Route::post('private/delete', 'API\PrivateChatController@delete'); // delete chat
 		// group chat route
+		Route::post('group/show', 'API\GroupChatController@show'); // show group chat
+		Route::post('group/send', 'API\GroupChatController@send'); // send group chat
+
 	});
 	// group route
 	Route::post('group/create', 'API\GroupController@create'); // create new group
@@ -33,4 +36,6 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::delete('group/exit', 'API\GroupController@exit'); // exit group
 	Route::get('group/show-my-group', 'API\GroupController@showMyGroup'); // tampilkan group user
 	Route::get('group/show/{id?}', 'API\GroupController@show'); // tampilkan group tertentu
+	// profile route
+	
 });
