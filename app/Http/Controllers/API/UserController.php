@@ -36,17 +36,12 @@ class UserController extends Controller
     		'phone'	=> 'required',
     	]);
 
-
-    	// move photo to public/images directory
-    	// request()->photo_profile->move(public_path('images'), $photoName);s
-
     	// if validation fails
     	if ($validator->fails()) {
     		return response()->json(['error' => $validator->errors()], 401);
     	}
 
     	$input = $request->all();
-		// $input['photo_profile'] = url('/images/' . $photoName);
 
     	$user = User::create($input);
     	$success['token'] = $user->createToken('nApp')->accessToken;

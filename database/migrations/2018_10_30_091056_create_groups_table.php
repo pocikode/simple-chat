@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGroupChatsTable extends Migration
+class CreateGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateGroupChatsTable extends Migration
      */
     public function up()
     {
-        Schema::create('group_chats', function (Blueprint $table) {
-            $table->increments('group_chat_id');
-            $table->integer('group_id');
-            $table->integer('user_id');
-            $table->text('message');
+        Schema::create('groups', function (Blueprint $table) {
+            $table->increments('group_id');
+            $table->string('name');
+            $table->string('member');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateGroupChatsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_chats');
+        Schema::dropIfExists('groups');
     }
 }
