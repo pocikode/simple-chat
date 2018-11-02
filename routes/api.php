@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register'); 
 Route::get('profile/{id?}', 'API\ProfileController@show'); // show profile by id
+Route::get('user/{id?}', 'API\UserController@show');
 
 // Passport route
 Route::group(['middleware' => 'auth:api'], function(){
@@ -28,7 +29,6 @@ Route::group(['middleware' => 'auth:api'], function(){
 		// group chat route
 		Route::post('group/show', 'API\GroupChatController@show'); // show group chat
 		Route::post('group/send', 'API\GroupChatController@send'); // send group chat
-
 	});
 	// group route
 	Route::post('group/create', 'API\GroupController@create'); // create new group
@@ -37,5 +37,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('group/show-my-group', 'API\GroupController@showMyGroup'); // tampilkan group user
 	Route::get('group/show/{id?}', 'API\GroupController@show'); // tampilkan group tertentu
 	// profile route
-	
+	Route::post('profile', 'API\ProfileController@myProfile'); // show my profile
+	Route::put('profile/update', 'API\ProfileController@updateProfile'); // change profile
+	Route::post('profile/update-photo', 'API\ProfileController@updatePhoto'); //update photo profile
 });

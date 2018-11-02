@@ -10,6 +10,10 @@ use Validator;
 
 class UserController extends Controller
 {
+  public function __construct()
+  {
+    header("Access-Control-Allow-Origin: *");
+  }
 	// login method
     function login()
     {
@@ -19,8 +23,8 @@ class UserController extends Controller
     		// if phone number is exists
     		Auth::login($phone); // create login
     		$user = Auth::user(); 
-    		$success['token'] = $user->createToken('nApp')->accessToken; // create token from user data
-    		return response()->json(['success' => $success], 200);
+    		$token = $user->createToken('nApp')->accessToken; // create token from user data
+    		return response()->json(['success' => 'Berhasil Login!', 'token' => $token], 201);
     	} else {
     		// if phone number is not exists, return error
     		return response()->json(['error' => 'Unauthorised'], 401);
@@ -54,5 +58,16 @@ class UserController extends Controller
     {
     	$user = Auth::user();
     	return response()->json(['success'=>$user], 200);
-    }
+	}
+	
+	function show($id=null)
+	{
+		if(is_null($id)){
+			$user = User::get()->all();
+		}else{
+			$user = User::where('user_id', $id)->first();
+		}
+    
+    return response()->json($user,200);
+	}
 }
