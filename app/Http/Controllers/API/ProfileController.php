@@ -9,16 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
-    // show profile by user_id
-    public function show($id)
-    {
-        $data = User::where('user_id',$id)->first();
-        if (is_null($data->photo_profile)) {
-            $data->photo_profile = url('images/default-user-photo.png');
-        }
-    	return response()->json(['data'=>$data], 200);
-    }
-
     // change photo profile
     public function updatePhoto(Request $request)
     {

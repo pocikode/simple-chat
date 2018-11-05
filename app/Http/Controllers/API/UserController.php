@@ -41,7 +41,8 @@ class UserController extends Controller
     		return response()->json(['error' => $validator->errors()], 401);
     	}
 
-    	$input = $request->all();
+        $input = $request->all();
+        $input['photo_profile'] = url('images/default-user-photo.png'); // user default photo_profile
 
     	$user = User::create($input);
     	$success['token'] = $user->createToken('nApp')->accessToken;

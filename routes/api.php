@@ -15,7 +15,6 @@ use Illuminate\Http\Request;
 
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register'); 
-Route::get('profile/{id?}', 'API\ProfileController@show'); // show profile by id
 Route::get('user/{id?}', 'API\UserController@show');
 
 // Passport route
