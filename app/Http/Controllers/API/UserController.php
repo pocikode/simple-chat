@@ -10,10 +10,6 @@ use Validator;
 
 class UserController extends Controller
 {
-  public function __construct()
-  {
-    header("Access-Control-Allow-Origin: *");
-  }
 	// login method
     function login()
     {
