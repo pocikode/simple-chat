@@ -52,14 +52,14 @@ class ProfileController extends Controller
             // $profile->name = $request->name;
             DB::table('users')->where('user_id', Auth::user()
                             ->user_id)
-                            ->update(['name', $request->name]);
+                            ->update(['name' => $request->name]);
             $message['name'] = 'Name chaged to '.$request->name;
         }
         if (!is_null($request->phone)) {
             // $profile->phone = $request->phone;
             DB::table('users')->where('user_id', Auth::user()
                             ->user_id)
-                            ->update(['phone', $request->phone]);
+                            ->update(['phone' => $request->phone]);
             $message['phone'] = 'Phone changed to '.$request->phone;
         }
         // save
