@@ -46,17 +46,18 @@ class ProfileController extends Controller
             'name'  => 'max:225'
         ]);
 
-        $profile = User::find(Auth::user()->user_id);
         if (!is_null($request->name)) {
+            $profile = User::find(Auth::user()->user_id);
             $profile->name = $request->name;
             $message['name'] = 'Name chaged to '.$request->name;
+            $profile->save(); // save
         }
         if (!is_null($request->phone)) {
+            $profile = User::find(Auth::user()->user_id);
             $profile->phone = $request->phone;
             $message['phone'] = 'Phone changed to '.$request->phone;
+            $profile->save(); // save
         }
-        // save
-        $profile->save();
 
         return response()->json(['success' => $message],200);
     }
