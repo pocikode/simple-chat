@@ -30,9 +30,11 @@ class ProfileController extends Controller
         request()->photo_profile->move(public_path('images'), $fileName);
 
         // update data user
-        $data = User::find(Auth::user()->user_id);
-        $data->photo_profile = url('/images/'.$fileName);
-        $data->save();
+        // $data = User::find(Auth::user()->user_id);
+        // $data->photo_profile = url('/images/'.$fileName);
+        // $data->save();
+        DB::table('users')->where('user_id', Auth::user()->user_id)
+                          ->update('photo_profile', url('/images/'.$fileName));
 
         return response()->json(['success' => 'foto berhasil diupload!'],200);
     }
@@ -50,9 +52,8 @@ class ProfileController extends Controller
         // $profile = User::find(Auth::user()->user_id);
         if (!is_null($request->name)) {
             // $profile->name = $request->name;
-            DB::table('users')->where('user_id', Auth::user()
-                            ->user_id)
-                            ->update(['name' => $request->name]);
+            DB::table('users')->where('user_id', Auth::user()->user_id)
+                              ->update(['name' => $request->name]);
             $message['name'] = 'Name chaged to '.$request->name;
         }
         if (!is_null($request->phone)) {
