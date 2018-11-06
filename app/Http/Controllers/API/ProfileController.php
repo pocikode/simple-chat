@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -46,29 +47,24 @@ class ProfileController extends Controller
             'name'  => 'max:225'
         ]);
 
+        // $profile = User::find(Auth::user()->user_id);
         if (!is_null($request->name)) {
-            $this->updateName($request->name);
+            // $profile->name = $request->name;
+            DB::table('users')->where('user_id', Auth::user()
+                            ->user_id)
+                            ->update(['name', $request->name]);
             $message['name'] = 'Name chaged to '.$request->name;
         }
         if (!is_null($request->phone)) {
-            $this->updatePhone($request->phone);
+            // $profile->phone = $request->phone;
+            DB::table('users')->where('user_id', Auth::user()
+                            ->user_id)
+                            ->update(['phone', $request->phone]);
             $message['phone'] = 'Phone changed to '.$request->phone;
-            $profile->save(); // save
         }
+        // save
+        // $profile->save();
 
         return response()->json(['success' => $message],200);
-    }
-
-    function updateName($name)
-    {
-        $profile = User::find(Auth::user()->user_id);
-        $profile->name = $name;
-        $profile->save(); // save
-    }
-    function updatePhone($phone)
-    {
-        $profile = User::find(Auth::user()->user_id);
-        $profile->phone = $phone;
-        $profile->save(); // save
     }
 }
