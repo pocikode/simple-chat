@@ -34,7 +34,7 @@ class ProfileController extends Controller
         // $data->photo_profile = url('/images/'.$fileName);
         // $data->save();
         DB::table('users')->where('user_id', Auth::user()->user_id)
-                          ->update('photo_profile', url('/images/'.$fileName));
+                          ->update(['photo_profile' => url('/images/'.$fileName)]);
 
         return response()->json(['success' => 'foto berhasil diupload!'],200);
     }
