@@ -47,18 +47,28 @@ class ProfileController extends Controller
         ]);
 
         if (!is_null($request->name)) {
-            $profile = User::find(Auth::user()->user_id);
-            $profile->name = $request->name;
+            $this->updateName($request->name);
             $message['name'] = 'Name chaged to '.$request->name;
-            $profile->save(); // save
         }
         if (!is_null($request->phone)) {
-            $profile = User::find(Auth::user()->user_id);
-            $profile->phone = $request->phone;
+            $this->updatePhone($request->phone);
             $message['phone'] = 'Phone changed to '.$request->phone;
             $profile->save(); // save
         }
 
         return response()->json(['success' => $message],200);
+    }
+
+    function updateName($name)
+    {
+        $profile = User::find(Auth::user()->user_id);
+        $profile->name = $name;
+        $profile->save(); // save
+    }
+    function updatePhone($phone)
+    {
+        $profile = User::find(Auth::user()->user_id);
+        $profile->phone = $phone;
+        $profile->save(); // save
     }
 }
