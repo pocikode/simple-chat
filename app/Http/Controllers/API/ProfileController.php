@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    // show my profile
+    public function myProfile()
+    {
+        $user = Auth::user();
+    	return response()->json(['success'=>$user], 200);
+    }
+
     // change photo profile
     public function updatePhoto(Request $request)
     {

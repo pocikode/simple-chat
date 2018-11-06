@@ -19,7 +19,6 @@ Route::get('user/{id?}', 'API\UserController@show');
 
 // Passport route
 Route::group(['middleware' => 'auth:api'], function(){
-	Route::get('details', 'API\UserController@details');
 	Route::group(['prefix' => 'chat'], function(){
 		// private chat route
 		Route::post('private/send', 'API\PrivateChatController@send'); // send chat to other user
@@ -36,7 +35,7 @@ Route::group(['middleware' => 'auth:api'], function(){
 	Route::get('group/show-my-group', 'API\GroupController@showMyGroup'); // tampilkan group user
 	Route::get('group/show/{id?}', 'API\GroupController@show'); // tampilkan group tertentu
 	// profile route
-	Route::post('profile', 'API\ProfileController@myProfile'); // show my profile
+	Route::get('profile', 'API\ProfileController@myProfile'); // show my profile
 	Route::put('profile/update', 'API\ProfileController@updateProfile'); // change profile
 	Route::post('profile/update-photo', 'API\ProfileController@updatePhoto'); //update photo profile
 });

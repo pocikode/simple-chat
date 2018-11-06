@@ -50,12 +50,6 @@ class UserController extends Controller
 
     	return response()->json(['success'=>$success], 200);
     }
-
-    function details()
-    {
-    	$user = Auth::user();
-    	return response()->json(['success'=>$user], 200);
-	}
 	
 	function show($id=null)
 	{
