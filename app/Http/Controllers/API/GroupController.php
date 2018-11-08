@@ -60,6 +60,11 @@ class GroupController extends Controller
         $group = Group::where('group_id', $group_id)->first();
         $member= json_decode($group->member); // ubah data ke array
 
+        // validate
+        if (!in_array(Auth::user()->user_id, $member)) {
+            return response()->json(['error' => 'Not Accepted!'], 406);
+        }
+
         // cek data user
         $user = User::where('phone', $request->phone)->first();
         if (is_null($user)){
