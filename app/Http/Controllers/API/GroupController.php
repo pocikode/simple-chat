@@ -13,8 +13,35 @@ use Illuminate\Support\Facades\DB;
 
 class GroupController extends Controller
 {
+    // menampilkan semua group user
+    public function index()
+    {
+        $user_id = Auth::user()->user_id;
+        // cari group dimana user bergabung
+        $group = DB::table('groups')->where('member', '[' . $user_id . ']')
+                                    ->orWhere('member', 'like', '[' . $user_id . ',%')
+                                    ->orWhere('member', 'like', '%,' . $user_id . ',%')
+                                    ->orWhere('member', 'like', '%,' . $user_id . ']')
+                                    ->get();
+
+        return response()->json($group, 200);
+    }
+
+    // menampilkan info group tertentu dimana user bergabung
+    public function show($id)
+    {
+        $group = Group::where('group_id', $id)->first();
+        // cek apakah user tergabung dengan grup tsb atau tidak
+        if (!in_array(Auth::user()->user_id, json_decode($group->member))) {
+            // jika user belum tergabung, request ditolak
+            return response()->json(['error' => 'Not Accepted!'], 406);
+        }
+
+        return response()->json($group, 200);
+    }
+
     // buat grup baru
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $data = new Group;
         $data->name = $request->name;
@@ -27,7 +54,7 @@ class GroupController extends Controller
     }
 
     // tambah user ke group
-    public function addUser(Request $request)
+    public function update(Request $request)
     {
         // ambil data group berdasarkan group_id
         $group = Group::where('group_id', $request->group_id)->first();
@@ -77,27 +104,6 @@ class GroupController extends Controller
 
             $message = "success";
             return response()->json(['success'=>$message,'user_id'=>Auth::user()->user_id], 200);
-        }
-    }
-
-    // show group info
-    public function show($id = null)
-    {
-        $user_id = Auth::user()->user_id;
-
-        //jika tidak ada $id, tampilkan semua grup user
-        if (is_null($id)) {
-            // cari group dimana user bergabung
-            $group = DB::table('groups')->where('member', '[' . $user_id . ']')
-                                        ->orWhere('member', 'like', '[' . $user_id . ',%')
-                                        ->orWhere('member', 'like', '%,' . $user_id . ',%')
-                                        ->orWhere('member', 'like', '%,' . $user_id . ']')
-                                        ->get();
-
-            return response()->json($group, 200);
-        } else {
-            $group = Group::where('group_id', $id)->first();
-            return response()->json($group, 200);
         }
     }
 

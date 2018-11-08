@@ -30,10 +30,8 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::apiResource('chat/group','API\GroupChatController')->except('update');
     
 	// --- Group route --- //
-	Route::post('group/create', 'API\GroupController@create'); // create new group
-	Route::post('group/add-user', 'API\GroupController@addUser'); //add another user to group
-	Route::delete('group/exit', 'API\GroupController@exit'); // exit group
-	Route::get('group/show/{id?}', 'API\GroupController@show'); // tampilkan group user
+    Route::apiResource('group','API\GroupController')->except('destroy');
+	Route::post('group/exit', 'API\GroupController@exit'); // exit group
     
     // --- Profile Route --- //
 	Route::get('profile', 'API\ProfileController@myProfile'); // show my profile
@@ -44,5 +42,5 @@ Route::group(['middleware' => 'auth:api'], function(){
 /**
  * Route dibawah ini cuma buat test aja
  */
-Route::get('user', 'API\UserController@show'); // menampilkan semua user yang ada di database
-Route::get('group', 'API\GroupController@showAll'); // menampilkan semua group yang ada di database
+Route::get('users', 'API\UserController@show'); // menampilkan semua user yang ada di database
+Route::get('groups', 'API\GroupController@showAll'); // menampilkan semua group yang ada di database
