@@ -14,7 +14,7 @@ class ProfileController extends Controller
     public function myProfile()
     {
         $user = Auth::user();
-    	return response()->json(['success'=>$user], 200);
+    	return response()->json($user, 200);
     }
 
     // change photo profile
@@ -30,9 +30,6 @@ class ProfileController extends Controller
         request()->photo_profile->move(public_path('images'), $fileName);
 
         // update data user
-        // $data = User::find(Auth::user()->user_id);
-        // $data->photo_profile = url('/images/'.$fileName);
-        // $data->save();
         DB::table('users')->where('user_id', Auth::user()->user_id)
                           ->update(['photo_profile' => url('/images/'.$fileName)]);
 
@@ -49,22 +46,17 @@ class ProfileController extends Controller
             'name'  => 'max:225'
         ]);
 
-        // $profile = User::find(Auth::user()->user_id);
         if (!is_null($request->name)) {
-            // $profile->name = $request->name;
             DB::table('users')->where('user_id', Auth::user()->user_id)
                               ->update(['name' => $request->name]);
             $message['name'] = 'Name chaged to '.$request->name;
         }
         if (!is_null($request->phone)) {
-            // $profile->phone = $request->phone;
             DB::table('users')->where('user_id', Auth::user()
                             ->user_id)
                             ->update(['phone' => $request->phone]);
             $message['phone'] = 'Phone changed to '.$request->phone;
         }
-        // save
-        // $profile->save();
 
         return response()->json(['success' => $message],200);
     }

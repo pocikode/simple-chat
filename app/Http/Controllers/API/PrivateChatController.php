@@ -15,7 +15,7 @@ class PrivateChatController extends Controller
     public function show()
     {
         $message = DB::table('private_chats')->where('user_id',Auth::user()->user_id)->orWhere('to_user',Auth::user()->user_id)->get(); 
-        return response()->json(['data'=>$message], 200);
+        return response()->json($message, 200);
     }
 
     public function send(Request $request)

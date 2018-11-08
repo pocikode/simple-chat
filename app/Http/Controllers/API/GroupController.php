@@ -94,10 +94,10 @@ class GroupController extends Controller
                                         ->orWhere('member', 'like', '%,' . $user_id . ']')
                                         ->get();
 
-            return response()->json(['data' => $group], 200);
+            return response()->json($group, 200);
         } else {
             $group = Group::where('group_id', $id)->first();
-            return response()->json(['data' => $group], 200);
+            return response()->json($group, 200);
         }
     }
 
