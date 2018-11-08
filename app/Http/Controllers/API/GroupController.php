@@ -92,11 +92,16 @@ class GroupController extends Controller
     }
 
     // keluar dari group
-    public function exit(Request $request)
+    public function destroy($group_id)
     {
         // ambil data group
-        $group = Group::where('group_id', $request->group_id)->first();
+        $group = Group::where('group_id', $group_id)->first();
         $member= json_decode($group->member); // ubah data ke array
+
+        // validate
+        if(!in_array(Auth::user()->user_id, $member)) {
+            return response()->json('',406);
+        }
 
         // hapus user dari group
         if($key = array_search(Auth::user()->user_id, $member) !== false){
@@ -104,7 +109,7 @@ class GroupController extends Controller
             unset($member[$key]);
 
             // update data
-            DB::table('groups')->where('group_id', $request->group_id)
+            DB::table('groups')->where('group_id', $group_id)
                                ->update(['member' => json_encode(array_values($member))]);
 
             $message = "success";
