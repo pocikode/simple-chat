@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Faker\Factory as Faker;
 
 class UserTableSeeder extends Seeder
 {
+    private $name = ['Fitra Aziz', 'Soleh Zuam', 'Muhammad Ilham', 'Adi Aswara', 'Luthfi Aji', 'Wintemas Miko', 'Yusup Almaududi', 'Syarif Hidayatullah'];
     /**
      * Run the database seeds.
      *
@@ -12,15 +12,15 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
-
-        DB::table('users')->insert([
-            'name'  => $faker->name,
-            'phone' => $this->generatePhone(),
-            'photo_profile' => "http://localhost:8000/images/default-user-photo.png",
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
-        ]) ;
+        for ($i=0; $i < count($this->name); $i++) {
+            DB::table('users')->insert([
+                'name' => $this->name[$i],
+                'phone' => $this->generatePhone(),
+                'photo_profile' => "http://api-simple-chat.herokuapp.com/images/default-user-photo.png",
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+        }
     }
 
     private function generatePhone()
