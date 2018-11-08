@@ -54,7 +54,7 @@ class GroupController extends Controller
     }
 
     // tambah user ke group
-    public function update(Request $request)
+    public function update($group_id, Request $request)
     {
         // ambil data group berdasarkan group_id
         $group = Group::where('group_id', $request->group_id)->first();
