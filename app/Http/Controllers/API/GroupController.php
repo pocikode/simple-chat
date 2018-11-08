@@ -112,6 +112,11 @@ class GroupController extends Controller
             DB::table('groups')->where('group_id', $group_id)
                                ->update(['member' => json_encode(array_values($member))]);
 
+            // jika member kosong, hapus group
+            if (count($member) === 0) {
+                Group::find($group_id)->delete();
+            }
+
             $message = "success";
             return response()->json(['success'=>$message,'user_id'=>Auth::user()->user_id], 200);
         }
