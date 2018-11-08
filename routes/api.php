@@ -25,9 +25,10 @@ Route::get('user/{id}', 'API\UserController@show');
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::group(['prefix' => 'chat'], function(){
 		// -- Private Chat route -- //
-		Route::post('private/send', 'API\PrivateChatController@send'); // send chat to other user
-		Route::post('private/show', 'API\PrivateChatController@show'); // show all chat by user
-		Route::delete('private/delete', 'API\PrivateChatController@delete'); // delete chat
+		// Route::post('private/send', 'API\PrivateChatController@send'); // send chat to other user
+		// Route::post('private/show', 'API\PrivateChatController@show'); // show all chat by user
+        // Route::delete('private/delete', 'API\PrivateChatController@delete'); // delete chat
+        Route::apiResource('private','API\PrivateChatController')->only(['store','index','destroy']);
         
         // -- Group Chat route -- //
 		Route::post('group/show/{group_id?}', 'API\GroupChatController@show'); // show group chat

@@ -12,13 +12,13 @@ use App\User;
 class PrivateChatController extends Controller
 {
     // show all user private chats
-    public function show()
+    public function index()
     {
         $message = DB::table('private_chats')->where('user_id',Auth::user()->user_id)->orWhere('to_user',Auth::user()->user_id)->get(); 
         return response()->json($message, 200);
     }
 
-    public function send(Request $request)
+    public function store(Request $request)
     {
         $to_user = User::where('phone',$request->phone)->first();
 
@@ -39,9 +39,9 @@ class PrivateChatController extends Controller
         return response()->json(['success'=>$success], 200);
     }
 
-    public function delete(Request $request)
+    public function destroy($private_chat_id)
     {
-        $chat = PrivateChat::find($request->private_chat_id);
+        $chat = PrivateChat::find($private_chat_id);
         // validate
         if ($chat->user_id != Auth::user()->user_id) {
             return response()->json(['error' => 'Not Acceptable'], 406);
