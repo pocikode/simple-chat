@@ -30,8 +30,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::apiResource('chat/group','API\GroupChatController')->except('update');
     
 	// --- Group route --- //
-    Route::apiResource('group','API\GroupController')->except('destroy');
-	Route::post('group/exit', 'API\GroupController@exit'); // exit group
+    Route::apiResource('group','API\GroupController');
     
     // --- Profile Route --- //
 	Route::get('profile', 'API\ProfileController@myProfile'); // show my profile
