@@ -20,7 +20,7 @@ class UserController extends Controller
     		Auth::login($phone); // create login
     		$user = Auth::user(); 
     		$token = $user->createToken('nApp')->accessToken; // create token from user data
-    		return response()->json(['success' => 'Berhasil Login!', 'token' => $token], 201);
+    		return response()->json(['success' => 'Berhasil Login!', 'token' => $token], 202);
     	} else {
     		// if phone number is not exists, return error
     		return response()->json(['error' => 'Unauthorised'], 401);
@@ -38,7 +38,7 @@ class UserController extends Controller
 
     	// if validation fails
     	if ($validator->fails()) {
-    		return response()->json(['error' => $validator->errors()], 401);
+    		return response()->json(['error' => $validator->errors()], 406);
     	}
 
         $input = $request->all();
@@ -48,7 +48,7 @@ class UserController extends Controller
     	$success['token'] = $user->createToken('nApp')->accessToken;
     	$success['name'] = $user->name;
 
-    	return response()->json(['success'=>$success], 200);
+    	return response()->json(['success'=>$success], 201);
     }
 	
 	function show($id=null)
