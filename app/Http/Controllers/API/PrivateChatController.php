@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\PrivateChat;
 use Illuminate\Support\Facades\DB;
+use App\User;
 
 class PrivateChatController extends Controller
 {
@@ -19,9 +20,11 @@ class PrivateChatController extends Controller
 
     public function send(Request $request)
     {
+        $to_user = User::where('phone',$request->phone)->first();
+
         $data = new PrivateChat;
         $data->user_id  = Auth::user()->user_id;
-        $data->to_user  = $request->to_user;
+        $data->to_user  = $to_user->user_id;
         $data->message  = $request->message;
         $data->save();
 
@@ -38,9 +41,13 @@ class PrivateChatController extends Controller
 
     public function delete(Request $request)
     {
-        $data = PrivateChat::find($request->private_chat_id);
-        $data->delete();
-
-        return response()->json(['success' => 'Deleted!'], 200);
+        $chat = PrivateChat::find($request->private_chat_id);
+        // validate
+        if ($chat->user_id != Auth::user()->user_id) {
+            return response()->json(['error' => 'Not Acceptable'], 406);
+        } else {
+            $chat->delete();
+            return response()->json(['success' => 'Deleted!'], 200);
+        }
     }
 }

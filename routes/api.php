@@ -15,27 +15,40 @@ use Illuminate\Http\Request;
 
 Route::post('login', 'API\UserController@login');
 Route::post('register', 'API\UserController@register'); 
-Route::get('user/{id?}', 'API\UserController@show');
+Route::get('user/{id}', 'API\UserController@show');
 
-// Passport route
+/**
+ * Route with middleware
+ * Untuk mengakses route di bawah ini
+ * memerlukan Authorization Bearer Token login
+ */
 Route::group(['middleware' => 'auth:api'], function(){
 	Route::group(['prefix' => 'chat'], function(){
-		// private chat route
+		// -- Private Chat route -- //
 		Route::post('private/send', 'API\PrivateChatController@send'); // send chat to other user
 		Route::post('private/show', 'API\PrivateChatController@show'); // show all chat by user
-		Route::post('private/delete', 'API\PrivateChatController@delete'); // delete chat
-		// group chat route
-		Route::post('group/show', 'API\GroupChatController@show'); // show group chat
+		Route::delete('private/delete', 'API\PrivateChatController@delete'); // delete chat
+        
+        // -- Group Chat route -- //
+		Route::post('group/show/{group_id?}', 'API\GroupChatController@show'); // show group chat
 		Route::post('group/send', 'API\GroupChatController@send'); // send group chat
-	});
-	// group route
+		Route::post('group/delete', 'API\GroupChatController@delete'); // send group chat
+    });
+    
+	// --- Group route --- //
 	Route::post('group/create', 'API\GroupController@create'); // create new group
 	Route::post('group/add-user', 'API\GroupController@addUser'); //add another user to group
 	Route::delete('group/exit', 'API\GroupController@exit'); // exit group
-	Route::get('group/show-my-group', 'API\GroupController@showMyGroup'); // tampilkan group user
-	Route::get('group/show/{id?}', 'API\GroupController@show'); // tampilkan group tertentu
-	// profile route
+	Route::get('group/show/{id?}', 'API\GroupController@show'); // tampilkan group user
+    
+    // --- Profile Route --- //
 	Route::get('profile', 'API\ProfileController@myProfile'); // show my profile
 	Route::put('profile/update', 'API\ProfileController@updateProfile'); // change profile
 	Route::post('profile/update-photo', 'API\ProfileController@updatePhoto'); //update photo profile
 });
+
+/**
+ * Route dibawah ini cuma buat test aja
+ */
+Route::get('user', 'API\UserController@show'); // menampilkan semua user yang ada di database
+Route::get('group', 'API\GroupController@showAll'); // menampilkan semua group yang ada di database

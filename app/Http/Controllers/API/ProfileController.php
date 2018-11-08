@@ -25,7 +25,7 @@ class ProfileController extends Controller
         ]);
 
         // ubah nama file
-        $fileName = now()->timestamp .'-'. uniqid() .'.'. request()->photo_profile->getClientOriginalExtension();
+        $fileName = Auth::user()->phone .'.'. request()->photo_profile->getClientOriginalExtension();
         // simpan file ke public/images
         request()->photo_profile->move(public_path('images'), $fileName);
 

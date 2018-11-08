@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://simple-chat-3008.herokuapp.com'),
+    'url' => env('APP_URL', 'https://api-simple-chat.herokuapp.com/'),
 
     /*
     |--------------------------------------------------------------------------
