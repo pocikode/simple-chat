@@ -12,35 +12,39 @@ use function GuzzleHttp\json_decode;
 
 class GroupChatController extends Controller
 {
-    // show group chat by id
-    public function show(Request $request, $group_id=null)
+    // menampilkan semua group chat user
+    public function index()
     {
         $user_id = Auth::user()->user_id;
 
-        if (is_null($group_id)) {
-            $groups = DB::table('groups')->where('member', '[' . $user_id . ']')
-                                         ->orWhere('member', 'like', '[' . $user_id . ',%')
-                                         ->orWhere('member', 'like', '%,' . $user_id . ',%')
-                                         ->orWhere('member', 'like', '%,' . $user_id . ']')
-                                         ->pluck('group_id');
+        // cek di group dimana saja user bergabung
+        $groups = DB::table('groups')->where('member', '[' . $user_id . ']')
+            ->orWhere('member', 'like', '[' . $user_id . ',%')
+            ->orWhere('member', 'like', '%,' . $user_id . ',%')
+            ->orWhere('member', 'like', '%,' . $user_id . ']')
+            ->pluck('group_id');
 
-            $chats = DB::table('group_chats')->whereIn('group_id', $groups)->get();
+        // tampilkan pesan dari group user
+        $chats = DB::table('group_chats')->whereIn('group_id', $groups)->get();
+        return response()->json($chats);
+    }
 
-            return response()->json($chats);
-        } else {
-            $group = Group::where('group_id', $request->group_id)->first();
-            // validate group
-            if (!in_array($user_id, json_decode($group->member))) {
-                return response()->json(['error' => 'Not Acceptable!'], 406);
-            }
-
-            $chats = GroupChat::where('group_id', $request->group_id)->get();
-            return response()->json($chats, 200);
+    // menampilkan semua group chat dari group tertentu
+    public function show($group_id)
+    {
+        $group = Group::where('group_id', $group_id)->first();
+        // validate group
+        if (!in_array(Auth::user()->user_id, json_decode($group->member))) {
+            // jika user tidak tergabung dengan group, request ditolak
+            return response()->json(['error' => 'Not Acceptable!'], 406);
         }
+
+        $chats = GroupChat::where('group_id', $group_id)->get();
+        return response()->json($chats, 200);
     }
 
     // send message to group
-    public function send(Request $request)
+    public function store(Request $request)
     {
         $group = Group::where('group_id', $request->group_id)->first();
         // validate group
@@ -66,12 +70,13 @@ class GroupChatController extends Controller
     }
 
     // delete chat
-    function delete(Request $request)
+    function destroy($group_chat_id)
     {
-        $chat = GroupChat::find($request->group_chat_id);
+        $chat = GroupChat::find($group_chat_id);
         // validate
         if($chat->user_id != Auth::user()->user_id)
         {
+            // jika yang mengirim bukan dari user, request ditolak
             return response()->json(['error' => 'Not Acceptable'], 406);
         } else {
             $chat->delete();

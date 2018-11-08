@@ -23,18 +23,11 @@ Route::get('user/{id}', 'API\UserController@show');
  * memerlukan Authorization Bearer Token login
  */
 Route::group(['middleware' => 'auth:api'], function(){
-	Route::group(['prefix' => 'chat'], function(){
-		// -- Private Chat route -- //
-		// Route::post('private/send', 'API\PrivateChatController@send'); // send chat to other user
-		// Route::post('private/show', 'API\PrivateChatController@show'); // show all chat by user
-        // Route::delete('private/delete', 'API\PrivateChatController@delete'); // delete chat
-        Route::apiResource('private','API\PrivateChatController')->only(['store','index','destroy']);
-        
-        // -- Group Chat route -- //
-		Route::post('group/show/{group_id?}', 'API\GroupChatController@show'); // show group chat
-		Route::post('group/send', 'API\GroupChatController@send'); // send group chat
-		Route::post('group/delete', 'API\GroupChatController@delete'); // send group chat
-    });
+    // -- Private Chat route -- //
+    Route::apiResource('chat/private','API\PrivateChatController')->only(['store','index','destroy']);
+    
+    // -- Group Chat route -- //
+    Route::apiResource('chat/group','API\GroupChatController')->except('update');
     
 	// --- Group route --- //
 	Route::post('group/create', 'API\GroupController@create'); // create new group
