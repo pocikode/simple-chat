@@ -57,7 +57,7 @@ class GroupController extends Controller
     public function update($group_id, Request $request)
     {
         // ambil data group berdasarkan group_id
-        $group = Group::where('group_id', $request->group_id)->first();
+        $group = Group::where('group_id', $group_id)->first();
         $member= json_decode($group->member); // ubah data ke array
 
         // cek data user
@@ -77,7 +77,7 @@ class GroupController extends Controller
                 $member[] = $user->user_id;
 
                 // update data
-                DB::table('groups')->where('group_id', $request->group_id)
+                DB::table('groups')->where('group_id', $group_id)
                                    ->update(['member' => json_encode($member)]);
 
                 $message = $user->name.' berhasil ditambahkan ke group '.$group->name;
