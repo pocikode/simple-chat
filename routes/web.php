@@ -14,9 +14,3 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('chat', function () {
-	return view('chat');
-});
-Route::get('test-upload', function() {
-	return view('upload-photo');
-});

@@ -29,7 +29,7 @@ class GroupChatController extends Controller
         return response()->json($chats);
     }
 
-    // menampilkan semua group chat dari group tertentu
+    // menampilkan semua chat dari group tertentu
     public function show($group_id)
     {
         $group = Group::where('group_id', $group_id)->first();
