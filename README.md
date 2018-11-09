@@ -5,7 +5,6 @@
 <a href="https://api-simple-chat.herokuapp.com"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## Installation 
 ### Requirements
 - PHP >= 7.1.3
 - Composer
@@ -17,7 +16,7 @@
 - Ctype PHP Extension
 - JSON PHP Extension
 
-
+### Installation 
 ```sh
 $ git clone https://github.com/pocikode/simple-chat.git
 $ cd simple-chat
