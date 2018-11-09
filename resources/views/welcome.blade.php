@@ -71,8 +71,8 @@
                 </div>
 
                 <div class="links m-b-md">
-                    <a href="https://documenter.getpostman.com/view/5690031/RzZ9Exxw">Documentation</a>
-                    <a href="https://github.com/pocikode/simple-chat">Github</a>
+                    <a target="_blank" href="https://documenter.getpostman.com/view/5690031/RzZ9Exxw">Documentation</a>
+                    <a target="_blank" href="https://github.com/pocikode/simple-chat">Github</a>
                 </div>
 
                 <div class="about">
